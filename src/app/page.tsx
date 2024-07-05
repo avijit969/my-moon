@@ -12,34 +12,42 @@ import {
 } from "@/components/ui/select";
 
 export default function Home() {
-  const [resolution, setResolution] = useState("144");
-  const [audio] = useState(new Audio('audio/chand_baliya.mp3'));
+  const [resolution, setResolution] = useState<string>("144");
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
 
-  const handleResolutionChange = (value:string) => {
+  useEffect(() => {
+    // This code runs only in the browser
+    const audioElement = new Audio('/audio/chand_baliya.mp3');
+    setAudio(audioElement);
+  }, []);
+
+  const handleResolutionChange = (value: string) => {
     setResolution(value);
   };
 
   useEffect(() => {
-    if (resolution === "1080") {
-      audio.play();
-    } else {
-      audio.pause();
-      audio.currentTime = 0; // Reset the audio to start
+    if (audio) {
+      if (resolution === "1080") {
+        audio.play();
+      } else {
+        audio.pause();
+        audio.currentTime = 0; // Reset the audio to start
+      }
     }
   }, [resolution, audio]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div>
-        <h1 className="text-slate-600 font-bold text-2xl">{resolution=='1080'?'My Moon 🤭':'Increase resolution'}</h1>
+        <h1 className="text-slate-600 font-bold text-2xl">{resolution === '1080' ? 'My Moon 🤭' : 'Increase resolution'}</h1>
         <div className='w-[200px] h-[300px]'>
-        <Image 
-          src={`/images/${resolution}.jpg`} 
-          alt="moon image" 
-          width='200' 
-          height='100' 
-          className="rounded-lg my-4" 
-        />
+          <Image 
+            src={`/images/${resolution}.jpg`} 
+            alt="moon image" 
+            width={200} 
+            height={100} 
+            className="rounded-lg my-4" 
+          />
         </div>
         <div className="">
           <Select onValueChange={handleResolutionChange} >
