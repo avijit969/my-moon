@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { NabBar } from '@/components/Nab-bar';
 
 export default function Home() {
   const [resolution, setResolution] = useState<string>("144");
@@ -37,9 +38,11 @@ export default function Home() {
   }, [resolution, audio]);
 
   return (
+    <div>
+    <NabBar/>
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div>
-        <h1 className="text-slate-600 font-bold text-2xl">{resolution === '1080' ? 'My Moon 🤭' : 'Increase resolution'}</h1>
+        <h1 className="text-slate-600 font-bold text-2xl dark:text-slate-200">{resolution === '1080' ? 'My Moon 🤭' : 'Increase resolution'}</h1>
         <div className='w-[200px] h-[300px]'>
           <Image 
             src={`/images/${resolution}.jpg`} 
@@ -69,5 +72,6 @@ export default function Home() {
         </div>
       </div>
     </main>
+    </div>
   );
 }
